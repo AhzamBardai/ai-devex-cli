@@ -1,0 +1,26 @@
+name: Eval Suite
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  eval:
+    name: Behavioral Eval
+    runs-on: ubuntu-latest
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e ".[dev]"
+      - run: pytest tests/eval/ -v -m eval --tb=short
+      - name: Upload eval results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: eval-results
+          path: results/
