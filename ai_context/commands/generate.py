@@ -1,4 +1,5 @@
 """Generate command: AI-powered analysis and context generation."""
+
 from __future__ import annotations
 
 import os
@@ -43,9 +44,8 @@ def run_generate(
         EnvironmentError: If ANTHROPIC_API_KEY is not set.
     """
     if not os.environ.get("ANTHROPIC_API_KEY"):
-        raise EnvironmentError(
-            "ANTHROPIC_API_KEY is not set. "
-            "Export it or add it to a .env file (never commit .env)."
+        raise OSError(
+            "ANTHROPIC_API_KEY is not set. Export it or add it to a .env file (never commit .env)."
         )
 
     selector = FileSelector(path, max_tokens=max_tokens)

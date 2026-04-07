@@ -3,11 +3,12 @@
 Set AI_CONTEXT_TELEMETRY=1 and OTEL_EXPORTER_OTLP_ENDPOINT to enable.
 No telemetry is collected by default. This module is a no-op unless opted in.
 """
+
 from __future__ import annotations
 
 import os
+from collections.abc import Generator
 from contextlib import contextmanager
-from typing import Generator
 
 
 def is_enabled() -> bool:
@@ -27,7 +28,6 @@ def trace_command(command: str) -> Generator[None, None, None]:
         return
 
     try:
-        from opentelemetry import trace
         from opentelemetry.sdk.trace import TracerProvider
 
         provider = TracerProvider()

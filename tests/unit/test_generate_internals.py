@@ -1,13 +1,21 @@
 """Unit tests for generate command internals and markdown renderers."""
+
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import pytest
 
-from ai_context.schema import ArchitectureDoc, Convention, ConventionsDoc, KeyService, DataFlowStep, SuggestedSkill
-
+from ai_context.schema import (
+    ArchitectureDoc,
+    Convention,
+    ConventionsDoc,
+    DataFlowStep,
+    KeyService,
+    SuggestedSkill,
+)
 
 # ── Markdown renderers ────────────────────────────────────────────────────────
+
 
 def test_architecture_to_markdown_sections() -> None:
     from ai_context.generator import architecture_to_markdown
@@ -82,6 +90,7 @@ def test_skill_to_markdown_has_frontmatter() -> None:
 
 # ── write_output ─────────────────────────────────────────────────────────────
 
+
 def test_write_output_creates_architecture_file(tmp_path: Path) -> None:
     from ai_context.commands.generate import write_output
     from ai_context.schema import GenerateOutput
@@ -104,9 +113,7 @@ def test_write_output_creates_conventions_file(tmp_path: Path) -> None:
     from ai_context.schema import GenerateOutput
 
     output = GenerateOutput(
-        conventions=ConventionsDoc(
-            logging=Convention(name="structlog", description="JSON logging")
-        )
+        conventions=ConventionsDoc(logging=Convention(name="structlog", description="JSON logging"))
     )
     written = write_output(output, tmp_path)
     assert any("conventions.md" in w for w in written)
@@ -127,25 +134,29 @@ def test_write_output_creates_skill_files(tmp_path: Path) -> None:
 
 # ── run_generate ──────────────────────────────────────────────────────────────
 
+
 def test_run_generate_raises_without_api_key(tmp_path: Path) -> None:
-    from ai_context.commands.generate import run_generate
     import os
+
+    from ai_context.commands.generate import run_generate
 
     with patch.dict("os.environ", {}, clear=True):
         if "ANTHROPIC_API_KEY" in os.environ:
             pass  # can't test without clearing
         env = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
         with patch.dict("os.environ", env, clear=True):
-            with pytest.raises(EnvironmentError, match="ANTHROPIC_API_KEY"):
+            with pytest.raises(OSError, match="ANTHROPIC_API_KEY"):
                 run_generate(path=tmp_path)
 
 
 # ── diff print ────────────────────────────────────────────────────────────────
 
+
 def test_print_diff_no_changes(capsys: pytest.CaptureFixture) -> None:
+    from rich.console import Console
+
     from ai_context.commands.diff import print_diff
     from ai_context.schema import DiffResult
-    from rich.console import Console
 
     console = Console()
     result = DiffResult()
@@ -155,9 +166,10 @@ def test_print_diff_no_changes(capsys: pytest.CaptureFixture) -> None:
 
 
 def test_print_diff_with_stale_hint(capsys: pytest.CaptureFixture) -> None:
+    from rich.console import Console
+
     from ai_context.commands.diff import print_diff
     from ai_context.schema import DiffResult, StaleHint
-    from rich.console import Console
 
     console = Console()
     result = DiffResult(
@@ -176,9 +188,11 @@ def test_print_diff_with_stale_hint(capsys: pytest.CaptureFixture) -> None:
 
 # ── stats print ───────────────────────────────────────────────────────────────
 
+
 def test_print_stats_with_most_used_skill(capsys: pytest.CaptureFixture) -> None:
-    from ai_context.commands.stats import print_stats
     from rich.console import Console
+
+    from ai_context.commands.stats import print_stats
 
     console = Console()
     data = {

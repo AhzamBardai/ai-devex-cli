@@ -1,4 +1,5 @@
 """Unit tests for the init command."""
+
 import time
 import tomllib
 from pathlib import Path

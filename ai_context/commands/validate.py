@@ -1,4 +1,5 @@
 """Validate command: lint the .ai/ folder against the convention schema."""
+
 from __future__ import annotations
 
 from pathlib import Path

@@ -1,4 +1,5 @@
 """Integration tests: haiku vs sonnet quality comparison."""
+
 import os
 from pathlib import Path
 

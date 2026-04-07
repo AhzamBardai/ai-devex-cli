@@ -1,4 +1,5 @@
 """Pydantic v2 models for the .ai/ folder convention and Claude structured output."""
+
 from __future__ import annotations
 
 from typing import Literal

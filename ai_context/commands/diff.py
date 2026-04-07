@@ -1,4 +1,5 @@
 """Diff command: compare .ai/ against git HEAD and detect stale context."""
+
 from __future__ import annotations
 
 import subprocess
@@ -35,9 +36,7 @@ def _parse_git_diff(diff_text: str) -> list[DiffEntry]:
     for line in diff_text.splitlines():
         if line.startswith("+++ b/"):
             if current_file:
-                entries.append(
-                    DiffEntry(file=current_file, additions=additions, removals=removals)
-                )
+                entries.append(DiffEntry(file=current_file, additions=additions, removals=removals))
             current_file = line[6:]
             additions = []
             removals = []
@@ -88,9 +87,7 @@ def run_diff(path: Path = Path(".")) -> DiffResult:
                 if not line.startswith(("A\t", "A ")):
                     continue
                 new_file = line.split("\t", 1)[-1].strip()
-                if not new_file.endswith(
-                    (".py", ".ts", ".tsx", ".kt", ".java", ".go", ".rs")
-                ):
+                if not new_file.endswith((".py", ".ts", ".tsx", ".kt", ".java", ".go", ".rs")):
                     continue
                 stem = Path(new_file).stem.lower()
                 if stem not in arch_content:
@@ -101,9 +98,7 @@ def run_diff(path: Path = Path(".")) -> DiffResult:
                                 f".ai/memory/architecture.md may be stale — "
                                 f"new file {new_file} not reflected"
                             ),
-                            suggestion=(
-                                "Run `ai-context generate --focus architecture` to update"
-                            ),
+                            suggestion=("Run `ai-context generate --focus architecture` to update"),
                         )
                     )
 

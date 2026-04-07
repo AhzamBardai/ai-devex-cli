@@ -1,4 +1,5 @@
 """Convention linter for the .ai/ folder structure."""
+
 from __future__ import annotations
 
 import re
@@ -97,7 +98,7 @@ def _validate_skill_frontmatter(
             ValidationIssue(
                 file=rel,
                 message="Skill file is missing YAML frontmatter",
-                suggestion="Add frontmatter block starting with --- and including name and description",
+                suggestion="Add frontmatter block starting with --- including name and description",
             )
         )
         return

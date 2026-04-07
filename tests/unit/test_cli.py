@@ -1,8 +1,8 @@
 """Unit tests for the CLI commands via Typer test client."""
-from pathlib import Path
-from unittest.mock import MagicMock, patch
 
-import pytest
+from pathlib import Path
+from unittest.mock import patch
+
 from typer.testing import CliRunner
 
 from ai_context.main import app
@@ -11,6 +11,7 @@ runner = CliRunner()
 
 
 # ── init command ──────────────────────────────────────────────────────────────
+
 
 def test_cli_init_success(tmp_path: Path) -> None:
     result = runner.invoke(app, ["init"], catch_exceptions=False)
@@ -33,6 +34,7 @@ def test_cli_init_already_initialized(tmp_path: Path) -> None:
 
 # ── validate command ──────────────────────────────────────────────────────────
 
+
 def test_cli_validate_passes_on_valid_folder(tmp_path: Path) -> None:
     with runner.isolated_filesystem(temp_dir=tmp_path):
         runner.invoke(app, ["init"])
@@ -51,10 +53,12 @@ def test_cli_validate_fails_on_missing_folder(tmp_path: Path) -> None:
 def test_cli_validate_shows_suggestion(tmp_path: Path) -> None:
     with runner.isolated_filesystem(temp_dir=tmp_path):
         result = runner.invoke(app, ["validate"])
-        assert "→" in result.output or "suggestion" in result.output.lower() or "init" in result.output
+        out = result.output
+        assert "→" in out or "suggestion" in out.lower() or "init" in out
 
 
 # ── diff command ──────────────────────────────────────────────────────────────
+
 
 def test_cli_diff_no_git_repo(tmp_path: Path) -> None:
     with runner.isolated_filesystem(temp_dir=tmp_path):
@@ -65,6 +69,7 @@ def test_cli_diff_no_git_repo(tmp_path: Path) -> None:
 
 # ── stats command ─────────────────────────────────────────────────────────────
 
+
 def test_cli_stats_shows_table(tmp_path: Path) -> None:
     with runner.isolated_filesystem(temp_dir=tmp_path):
         runner.invoke(app, ["init"])
@@ -74,6 +79,7 @@ def test_cli_stats_shows_table(tmp_path: Path) -> None:
 
 
 # ── generate command ──────────────────────────────────────────────────────────
+
 
 def test_cli_generate_invalid_model() -> None:
     result = runner.invoke(app, ["generate", "--model", "gpt4"])

@@ -1,4 +1,5 @@
 """Reliability eval: structured output must never fail Pydantic validation across N runs."""
+
 from __future__ import annotations
 
 import math
@@ -33,8 +34,8 @@ def test_structured_output_never_fails_pydantic() -> None:
         except Exception as e:
             failures.append(f"Run {i + 1}: {e}")
 
-    assert not failures, (
-        f"Structured output failed on {len(failures)}/{runs} runs:\n" + "\n".join(failures)
+    assert not failures, f"Structured output failed on {len(failures)}/{runs} runs:\n" + "\n".join(
+        failures
     )
 
 

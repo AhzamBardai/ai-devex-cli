@@ -1,4 +1,5 @@
 """Scaffold the .ai/ folder convention in a repository."""
+
 from __future__ import annotations
 
 from pathlib import Path

@@ -1,13 +1,12 @@
 """Unit tests for the diff command — git-based .ai/ change detection."""
+
 import subprocess
 from pathlib import Path
 
 
 def _git_init(path: Path) -> None:
     subprocess.run(["git", "init"], cwd=path, capture_output=True, check=True)
-    subprocess.run(
-        ["git", "config", "user.email", "test@test.com"], cwd=path, capture_output=True
-    )
+    subprocess.run(["git", "config", "user.email", "test@test.com"], cwd=path, capture_output=True)
     subprocess.run(["git", "config", "user.name", "Test User"], cwd=path, capture_output=True)
 
 

@@ -1,4 +1,5 @@
 """Quality eval: section completeness and service recall across 5 fixture repos."""
+
 from __future__ import annotations
 
 import os

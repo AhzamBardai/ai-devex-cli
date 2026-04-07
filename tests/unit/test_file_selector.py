@@ -1,9 +1,10 @@
 """Unit tests for FileSelector — token-budget file selection."""
+
 from pathlib import Path
 
 
 def test_selects_readme_first(tmp_path: Path) -> None:
-    from ai_context.generator import FileSelector, estimate_tokens
+    from ai_context.generator import FileSelector
 
     (tmp_path / "README.md").write_text("# Project\n" * 20)
     (tmp_path / "other.py").write_text("x = 1\n" * 20)

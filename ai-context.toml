@@ -1,0 +1,6 @@
+[project]
+version = "1.0"
+project_name = ""
+default_model = "haiku"
+max_tokens = 4000
+template = "minimal"

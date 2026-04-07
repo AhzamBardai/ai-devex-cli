@@ -1,4 +1,5 @@
 """Entry point for the ai-context CLI."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -78,12 +79,12 @@ def generate(
             focus=focus,  # type: ignore[arg-type]
             max_tokens=max_tokens,
         )
-    except EnvironmentError as e:
+    except OSError as e:
         console.print(f"[red]Error: {e}[/red]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
     except Exception as e:
         console.print(f"[red]Generation failed: {e}[/red]")
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
 
     written = write_output(output, root)
 

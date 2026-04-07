@@ -1,4 +1,5 @@
 """Integration tests: run generate on fixture repos against the real Claude API."""
+
 import os
 import shutil
 import time

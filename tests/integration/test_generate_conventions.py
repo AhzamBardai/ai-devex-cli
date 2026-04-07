@@ -1,4 +1,5 @@
 """Integration tests: convention generation quality checks."""
+
 import os
 from pathlib import Path
 

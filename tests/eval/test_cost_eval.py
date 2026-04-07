@@ -1,4 +1,5 @@
 """Cost eval: measure tokens consumed per repo size tier."""
+
 from __future__ import annotations
 
 import os
@@ -29,7 +30,12 @@ def test_cost_per_tier(tier: str, fixture_name: str) -> None:
     """Medium repo must cost < $0.01 per generate call on haiku."""
     import anthropic
 
-    from ai_context.generator import ARCHITECTURE_TOOL, MODEL_MAP, FileSelector, build_context_prompt
+    from ai_context.generator import (
+        ARCHITECTURE_TOOL,
+        MODEL_MAP,
+        FileSelector,
+        build_context_prompt,
+    )
 
     repo = FIXTURES / fixture_name
     if not repo.exists():
@@ -60,8 +66,7 @@ def test_cost_per_tier(tier: str, fixture_name: str) -> None:
     )
 
     print(
-        f"\n[{tier}] {fixture_name}: input={input_tokens}, "
-        f"output={output_tokens}, cost=${cost:.6f}"
+        f"\n[{tier}] {fixture_name}: input={input_tokens}, output={output_tokens}, cost=${cost:.6f}"
     )
 
     if tier == "medium":

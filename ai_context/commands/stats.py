@@ -1,4 +1,5 @@
 """Stats command: report .ai/ context usage statistics."""
+
 from __future__ import annotations
 
 import re
@@ -51,16 +52,12 @@ def run_stats(path: Path = Path(".")) -> dict[str, Any]:
 
     rules_dir = ai_dir / "rules"
     if rules_dir.exists():
-        stats["rules"] = len(
-            [f for f in rules_dir.rglob("*.md") if f.stat().st_size > 0]
-        )
+        stats["rules"] = len([f for f in rules_dir.rglob("*.md") if f.stat().st_size > 0])
 
     all_md = list(ai_dir.rglob("*.md"))
     if all_md:
         latest = max(all_md, key=lambda f: f.stat().st_mtime)
-        stats["last_updated"] = datetime.fromtimestamp(
-            latest.stat().st_mtime
-        ).strftime("%Y-%m-%d")
+        stats["last_updated"] = datetime.fromtimestamp(latest.stat().st_mtime).strftime("%Y-%m-%d")
 
     changelog = ai_dir / "CHANGELOG.md"
     if changelog.exists():

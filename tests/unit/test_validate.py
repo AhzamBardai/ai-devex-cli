@@ -1,4 +1,5 @@
 """Unit tests for the .ai/ folder convention linter."""
+
 from pathlib import Path
 
 

@@ -1,4 +1,5 @@
 """File selection, prompt building, and Claude API integration for the generate command."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -45,7 +46,15 @@ def _priority_score(path: Path, root: Path) -> int:
 
     if name.startswith("readme"):
         return 100
-    if name in {"pyproject.toml", "package.json", "build.gradle.kts", "build.gradle", "pom.xml", "setup.py"}:
+    build_files = {
+        "pyproject.toml",
+        "package.json",
+        "build.gradle.kts",
+        "build.gradle",
+        "pom.xml",
+        "setup.py",
+    }
+    if name in build_files:
         return 90
     if name in {"main.py", "app.py", "index.py", "server.py", "index.ts", "index.js", "main.kt"}:
         return 80
@@ -76,9 +85,7 @@ class FileSelector:
     def _load_gitignore(self) -> pathspec.PathSpec | None:
         gitignore = self.root / ".gitignore"
         if gitignore.exists():
-            return pathspec.PathSpec.from_lines(
-                "gitignore", gitignore.read_text().splitlines()
-            )
+            return pathspec.PathSpec.from_lines("gitignore", gitignore.read_text().splitlines())
         return None
 
     def _is_ignored(self, path: Path) -> bool:
@@ -288,7 +295,6 @@ from ai_context.schema import (  # noqa: E402
     Convention,
     ConventionsDoc,
     DataFlowStep,
-    GenerateOutput,
     KeyService,
     SuggestedSkill,
 )
@@ -319,9 +325,7 @@ def _parse_conventions_output(data: dict[str, Any]) -> ConventionsDoc:
         model_validation=_conv(data.get("model_validation")),
         test_structure=_conv(data.get("test_structure")),
         additional=[
-            Convention(
-                name=c["name"], description=c["description"], example=c.get("example", "")
-            )
+            Convention(name=c["name"], description=c["description"], example=c.get("example", ""))
             for c in data.get("additional", [])
         ],
     )

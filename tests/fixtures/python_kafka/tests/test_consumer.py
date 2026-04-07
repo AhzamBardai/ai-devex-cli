@@ -1,6 +1,6 @@
 """Tests for the Kafka consumer message processing."""
 import pytest
-from consumer import OrderEvent, process_message
+from consumer import process_message
 
 
 def test_process_valid_message() -> None:
